@@ -1,136 +1,180 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>İyi Ki Doğdun Berat</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Özel Alan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
 
-        body {
-            height: 100vh;
-            background: linear-gradient(135deg, #ffe4ec, #ffd1dc);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-        }
+body{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f5f5f5;
+    transition:1.5s;
+    overflow:hidden;
+}
 
-        .envelope {
-            width: 320px;
-            height: 220px;
-            background: #f8b7c8;
-            position: relative;
-            cursor: pointer;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            border-radius: 6px;
-            transition: transform 0.5s;
-        }
+.container{
+    width:320px;
+    background:#fff;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    text-align:center;
+}
 
-        .envelope:hover {
-            transform: scale(1.03);
-        }
+h1{font-size:20px;margin-bottom:15px}
+input{
+    width:100%;
+    padding:10px;
+    margin:15px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+button{
+    width:100%;
+    padding:10px;
+    border:none;
+    background:#333;
+    color:#fff;
+    border-radius:6px;
+    cursor:pointer;
+}
 
-        .flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #f29ab3;
-            clip-path: polygon(0 0, 100% 0, 50% 55%);
-            transform-origin: top;
-            transition: transform 1s;
-            z-index: 3;
-        }
+.loader{
+    display:none;
+    width:300px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+.bar{
+    width:0%;
+    height:20px;
+    background:#333;
+    transition:.2s;
+}
 
-        .letter {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: calc(100% - 20px);
-            height: calc(100% - 20px);
-            background: #fff;
-            border-radius: 4px;
-            padding: 20px;
-            text-align: center;
-            transform: translateY(100%);
-            transition: transform 1s;
-            z-index: 2;
-            overflow-y: auto;
-        }
+.envelope{
+    display:none;
+    width:320px;
+    height:220px;
+    background:#f8b7c8;
+    position:relative;
+    border-radius:6px;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+    cursor:pointer;
+}
 
-        .letter h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #d94c77;
-        }
+.flap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#f29ab3;
+    clip-path:polygon(0 0,100% 0,50% 55%);
+    transform-origin:top;
+    transition:1s;
+    z-index:3;
+}
 
-        .letter p {
-            font-size: 15px;
-            line-height: 1.7;
-            color: #444;
-        }
+.letter{
+    position:absolute;
+    top:10px;
+    left:10px;
+    width:calc(100% - 20px);
+    height:calc(100% - 20px);
+    background:white;
+    border-radius:4px;
+    padding:18px;
+    text-align:center;
+    transform:translateY(100%);
+    transition:1s;
+    z-index:2;
+    overflow:auto;
+}
 
-        .signature {
-            margin-top: 20px;
-            font-style: italic;
-            color: #c94a72;
-            font-size: 16px;
-        }
+.open .flap{transform:rotateX(180deg)}
+.open .letter{transform:translateY(0)}
 
-        .open .flap {
-            transform: rotateX(180deg);
-        }
+.letter h2{
+    font-family:Playfair Display,serif;
+    color:#d94c77;
+    margin-bottom:10px;
+}
 
-        .open .letter {
-            transform: translateY(0);
-        }
-
-        .hint {
-            position: absolute;
-            bottom: 30px;
-            font-size: 14px;
-            color: #a94460;
-            opacity: 0.8;
-        }
-    </style>
+.signature{
+    margin-top:15px;
+    font-style:italic;
+    color:#c94a72;
+}
+</style>
 </head>
+
 <body>
 
-<div class="envelope" onclick="openLetter()">
+<div class="container" id="login">
+    <h1>Özel Üyelik Alanı</h1>
+    <p>Lütfen devam etmek için isminizi giriniz.</p>
+    <input id="name" placeholder="Adınız">
+    <button onclick="start()">Devam Et</button>
+</div>
+
+<div class="loader" id="loader">
+    <div class="bar" id="bar"></div>
+</div>
+
+<div class="envelope" id="envelope" onclick="openLetter()">
     <div class="flap"></div>
     <div class="letter">
-        <h1>Doğum Günün Kutlu Olsun Beratım 🌹</h1>
+        <h2 id="welcome"></h2>
         <p>
+            Doğum günün kutlu olsun 🌹<br><br>
             Yeni yılda ve yaşında mutluluklar diliyorum.  
             İnşallah nice senelere.  
             PES’de yeni senende ve yaşında da çakmaya devam.
         </p>
-
-        <div class="signature">
-            🌹 Sevgilerle Said 🌹
-        </div>
+        <div class="signature">🌹 Sevgilerle Said 🌹</div>
     </div>
 </div>
 
-<div class="hint">Mektuba dokun ✉️</div>
-
 <script>
-    function openLetter() {
-        document.querySelector('.envelope').classList.add('open');
-        document.querySelector('.hint').style.display = 'none';
-    }
+let userName = "";
+
+function start(){
+    userName = document.getElementById("name").value || "Misafir";
+    document.getElementById("login").style.display="none";
+    document.getElementById("loader").style.display="block";
+
+    let bar = document.getElementById("bar");
+    let width = 0;
+    let interval = setInterval(()=>{
+        width += 2;
+        bar.style.width = width + "%";
+        if(width >= 100){
+            clearInterval(interval);
+            showLetter();
+        }
+    },40);
+}
+
+function showLetter(){
+    document.body.style.background="linear-gradient(135deg,#ffe4ec,#ffd1dc)";
+    document.getElementById("loader").style.display="none";
+    document.getElementById("envelope").style.display="block";
+    document.getElementById("welcome").innerText = "Hoş geldin " + userName;
+}
+
+function openLetter(){
+    document.getElementById("envelope").classList.add("open");
+}
 </script>
 
 </body>
