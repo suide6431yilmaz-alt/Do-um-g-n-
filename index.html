@@ -3,78 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun Berat 🎉</title>
+<title>Berat için küçük bir sürpriz 🎁</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   background: linear-gradient(135deg, #ffecd2, #fcb69f);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
-  background: white;
-  width: 90%;
+  background: #ffffff;
+  width: 92%;
   max-width: 380px;
   padding: 25px;
-  border-radius: 20px;
+  border-radius: 22px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
 }
 
+/* Başlık */
 h1 {
   color: #ff6b6b;
-  margin-bottom: 15px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
-.intro {
+.subtitle {
   color: #555;
   font-size: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
+/* Buton */
 button {
   background: #ff6b6b;
   color: white;
   border: none;
-  padding: 12px 22px;
-  border-radius: 25px;
+  padding: 14px 26px;
+  border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
 }
 
 button:hover {
   background: #ff4757;
+  transform: scale(1.05);
 }
 
+/* Zarf */
 .envelope {
-  margin-top: 25px;
-  perspective: 1000px;
+  width: 100%;
+  margin-top: 30px;
   display: none;
+  position: relative;
 }
 
+.envelope-body {
+  background: #ffe4e1;
+  border-radius: 15px;
+  padding: 30px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Zarf kapağı */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ffb6b6;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transform: rotateX(0deg);
+  transition: transform 1s;
+}
+
+.envelope.open .envelope-flap {
+  transform: rotateX(-180deg);
+}
+
+/* Mektup */
 .letter {
   background: #fffaf0;
   border-radius: 12px;
   padding: 20px;
-  transform: rotateX(-90deg);
-  transform-origin: top;
-  transition: transform 1s;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.letter.open {
-  transform: rotateX(0deg);
-}
-
-.letter p {
+  margin-top: 10px;
+  min-height: 160px;
+  text-align: left;
   font-size: 15px;
   line-height: 1.6;
   color: #444;
+  display: none;
+}
+
+/* Kalpler */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 18px;
+  animation: floatUp 4s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-120px);
+    opacity: 0;
+  }
+}
+
+/* İmza */
+.signature {
+  margin-top: 15px;
+  text-align: right;
+  font-style: italic;
+  color: #666;
+  display: none;
 }
 </style>
 </head>
@@ -82,33 +144,67 @@ button:hover {
 <body>
 
 <div class="container">
-  <h1>🎂 İyi ki Doğdun!</h1>
+  <h1>Berat için küçük bir sürpriz 🎁</h1>
+  <div class="subtitle">Açmadan önce bir nefes al 😄</div>
 
-  <p class="intro">
-    Senin için küçük ama anlamlı bir şey hazırladım.<br>
-    Hazırsan mektubu açabilirsin 🙂
-  </p>
-
-  <button onclick="openLetter()">📜 Mektubu Aç</button>
+  <button id="openBtn" onclick="openEnvelope()">📩 Mektubu Aç</button>
 
   <div class="envelope" id="envelope">
-    <div class="letter" id="letter">
-      <p>
-        Doğum günün kutlu olsun Beratım 🌹<br><br>
-        Yeni yılda ve yaşında mutluluklar dilerim.<br>
-        Pesde bu senede çakıcam 😄<br><br>
-        Sevgilerle 🌹🌹🌹
-      </p>
+    <div class="envelope-body">
+      <div class="envelope-flap"></div>
+
+      <div class="letter" id="letter"></div>
+      <div class="signature" id="signature">— Eren</div>
     </div>
   </div>
 </div>
 
 <script>
-function openLetter() {
-  document.getElementById("envelope").style.display = "block";
+const text = 
+`Doğum günün kutlu olsun Beratım 🌹
+
+Yeni yılda ve yaşında mutluluklar dilerim.
+Pesde bu senede çakıcam 😄
+
+Sevgilerle 🌹🌹🌹`;
+
+let index = 0;
+
+function openEnvelope() {
+  document.getElementById("openBtn").style.display = "none";
+  const env = document.getElementById("envelope");
+  env.style.display = "block";
+  setTimeout(() => env.classList.add("open"), 100);
+
   setTimeout(() => {
-    document.getElementById("letter").classList.add("open");
-  }, 100);
+    document.getElementById("letter").style.display = "block";
+    typeText();
+    createHearts();
+  }, 900);
+}
+
+function typeText() {
+  const letter = document.getElementById("letter");
+  if (index < text.length) {
+    letter.innerHTML += text.charAt(index) === "\n" ? "<br>" : text.charAt(index);
+    index++;
+    setTimeout(typeText, 40);
+  } else {
+    document.getElementById("signature").style.display = "block";
+  }
+}
+
+function createHearts() {
+  for (let i = 0; i < 5; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 90 + "%";
+    heart.style.animationDelay = Math.random() * 2 + "s";
+    document.querySelector(".container").appendChild(heart);
+
+    setTimeout(() => heart.remove(), 4000);
+  }
 }
 </script>
 
