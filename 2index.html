@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>SIMULATION // ACCESS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   GLOBAL
+========================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0b0c0f;color:#e6e6e6;font-family:Inter,system-ui}
+.hidden{display:none}
+.fade{animation:fade 1.2s forwards}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.center{display:flex;align-items:center;justify-content:center}
+button{cursor:pointer}
+
+/* =========================
+   SCENE CONTAINER
+========================= */
+#app{width:100%;height:100%;position:relative;overflow:hidden}
+
+/* =========================
+   SCENE 1 – ANON LOGIN
+========================= */
+#scene-login{
+  position:absolute;inset:0;
+  background:#0e0f13;
+}
+.login-box{
+  width:320px;
+  background:#111319;
+  border:1px solid #1f2230;
+  padding:28px;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+.login-box h1{
+  font-size:14px;
+  letter-spacing:2px;
+  opacity:.7;
+  margin-bottom:14px;
+}
+.login-box p{
+  font-size:12px;
+  opacity:.6;
+  margin-bottom:18px;
+}
+.login-box input{
+  width:100%;
+  background:#0b0c10;
+  border:1px solid #22263a;
+  color:#fff;
+  padding:10px;
+  margin-bottom:14px;
+}
+.login-box button{
+  width:100%;
+  padding:10px;
+  background:#1b1f2e;
+  border:1px solid #2c3352;
+  color:#fff;
+}
+
+/* =========================
+   SCENE 2 – LOADING
+========================= */
+#scene-loading{
+  position:absolute;inset:0;
+  background:#000;
+}
+.loading-wrap{
+  width:300px;
+}
+.loading-text{
+  font-size:12px;
+  letter-spacing:1px;
+  margin-bottom:10px;
+  opacity:.7;
+}
+.bar{
+  width:100%;height:8px;background:#111;
+}
+.bar > div{
+  width:0%;height:100%;
+  background:#4a4f7a;
+  transition:.2s;
+}
+
+/* =========================
+   SCENE 3 – DARK SEARCH
+========================= */
+#scene-dark{
+  position:absolute;inset:0;
+  background:#000;
+  cursor:none;
+}
+#dark-layer{
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.12) 0%, rgba(0,0,0,.95) 140px);
+}
+.whisper{
+  position:absolute;
+  font-size:11px;
+  opacity:.6;
+}
+#hint{
+  position:absolute;bottom:20px;left:50%;
+  transform:translateX(-50%);
+  font-size:11px;opacity:.4;
+}
+
+/* =========================
+   GLITCH
+========================= */
+.glitch{
+  animation:glitch .15s infinite;
+}
+@keyframes glitch{
+  0%{transform:translate(0)}
+  25%{transform:translate(-2px,1px)}
+  50%{transform:translate(2px,-1px)}
+  75%{transform:translate(-1px,2px)}
+}
+
+/* =========================
+   SCENE 4 – LETTER
+========================= */
+#scene-letter{
+  position:absolute;inset:0;
+  background:#f5f5f5;
+  color:#111;
+}
+.letter-wrap{
+  max-width:520px;
+  padding:40px;
+  font-family:Cinzel,serif;
+}
+.letter-wrap h2{
+  font-weight:600;
+  margin-bottom:20px;
+}
+.letter-wrap p{
+  font-size:16px;
+  line-height:1.8;
+}
+
+/* ========================= */
+</style>
+</head>
+
+<body>
+<div id="app">
+
+<!-- SCENE 1 -->
+<div id="scene-login" class="center fade">
+  <div class="login-box">
+    <h1>ACCESS NODE</h1>
+    <p>Kimliğini gir.</p>
+    <input id="username" placeholder="İsim">
+    <button onclick="startSimulation()">ENTER</button>
+  </div>
+</div>
+
+<!-- SCENE 2 -->
+<div id="scene-loading" class="center hidden">
+  <div class="loading-wrap">
+    <div class="loading-text" id="loadingText">Bağlantı kuruluyor…</div>
+    <div class="bar"><div id="loadbar"></div></div>
+  </div>
+</div>
+
+<!-- SCENE 3 -->
+<div id="scene-dark" class="hidden">
+  <div id="dark-layer"></div>
+  <div class="whisper" style="top:30%;left:20%">burada bir şey var</div>
+  <div class="whisper" style="top:55%;left:60%">hatırlıyor musun</div>
+  <div id="hint">hareket et</div>
+</div>
+
+<!-- SCENE 4 -->
+<div id="scene-letter" class="hidden center">
+  <div class="letter-wrap fade">
+    <h2 id="letterTitle"></h2>
+    <p>
+      Buraya kadar gelmen tesadüf değildi.<br><br>
+      Korku, karanlık ya da belirsizlik için değildi bu yol.<br>
+      Sadece bir an durman içindi.<br><br>
+      Yeni yaşın; gürültüden uzak,<br>
+      kendi sesini duyabildiğin bir yer olsun.<br><br>
+      İyi ki varsın.
+    </p>
+    <p style="margin-top:30px;font-style:italic">
+      — Said
+    </p>
+  </div>
+</div>
+
+</div>
+
+<script>
+/* =========================
+   STATE
+========================= */
+let user = "Misafir";
+let load = 0;
+
+/* =========================
+   START
+========================= */
+function startSimulation(){
+  user = document.getElementById("username").value || "Misafir";
+  switchScene("scene-login","scene-loading");
+  loadingSequence();
+}
+
+/* =========================
+   LOADING
+========================= */
+function loadingSequence(){
+  const texts=[
+    "Bağlantı kuruluyor…",
+    "Bilinç senkronize ediliyor…",
+    "Veriler çözümleniyor…",
+    "Erişim sağlandı."
+  ];
+  let t=0;
+  let bar=document.getElementById("loadbar");
+  let txt=document.getElementById("loadingText");
+
+  let i=setInterval(()=>{
+    load+=4;
+    bar.style.width=load+"%";
+    if(load%25===0 && t<texts.length){
+      txt.innerText=texts[t++];
+    }
+    if(load>=100){
+      clearInterval(i);
+      setTimeout(()=>switchScene("scene-loading","scene-dark"),600);
+    }
+  },40);
+}
+
+/* =========================
+   DARK SCENE
+========================= */
+const dark=document.getElementById("scene-dark");
+const layer=document.getElementById("dark-layer");
+
+dark.addEventListener("mousemove",e=>{
+  const x=e.clientX;
+  const y=e.clientY;
+  layer.style.background=
+    `radial-gradient(circle at ${x}px ${y}px,
+    rgba(255,255,255,.14) 0%,
+    rgba(0,0,0,.96) 140px)`;
+});
+
+let found=false;
+dark.addEventListener("click",()=>{
+  if(found) return;
+  found=true;
+  dark.classList.add("glitch");
+  document.getElementById("hint").innerText="sistem kararsız…";
+  setTimeout(()=>switchScene("scene-dark","scene-letter"),900);
+});
+
+/* =========================
+   LETTER
+========================= */
+function showLetter(){
+  document.getElementById("letterTitle").innerText=
+    "Doğum günün kutlu olsun, "+user+".";
+}
+
+/* =========================
+   SCENE SWITCH
+========================= */
+function switchScene(from,to){
+  document.getElementById(from).classList.add("hidden");
+  const el=document.getElementById(to);
+  el.classList.remove("hidden");
+  if(to==="scene-letter") showLetter();
+}
+</script>
+</body>
+</html>
