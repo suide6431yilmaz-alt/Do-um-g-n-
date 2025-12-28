@@ -3,140 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Berat için küçük bir sürpriz 🎁</title>
+<title>Berat’a Mektup</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #ffecd2, #fcb69f);
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffe6eb, #fff5e6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
-  background: #ffffff;
-  width: 92%;
-  max-width: 380px;
-  padding: 25px;
-  border-radius: 22px;
-  text-align: center;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  position: relative;
-  overflow: hidden;
+    text-align: center;
+    padding: 20px;
 }
 
-/* Başlık */
 h1 {
-  color: #ff6b6b;
-  font-size: 24px;
-  margin-bottom: 10px;
+    color: #d6336c;
+    margin-bottom: 10px;
 }
 
-.subtitle {
-  color: #555;
-  font-size: 15px;
-  margin-bottom: 25px;
+p {
+    color: #444;
 }
 
-/* Buton */
 button {
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 14px 26px;
-  border-radius: 30px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+    margin-top: 25px;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: #ff6b81;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 button:hover {
-  background: #ff4757;
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 /* Zarf */
 .envelope {
-  width: 100%;
-  margin-top: 30px;
-  display: none;
-  position: relative;
+    width: 260px;
+    height: 160px;
+    background: #ffb6c1;
+    position: relative;
+    margin: 40px auto;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.envelope-body {
-  background: #ffe4e1;
-  border-radius: 15px;
-  padding: 30px 20px 20px;
-  position: relative;
-  overflow: hidden;
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 50%, #ff8fa3 50%);
+    transform-origin: top;
+    transition: transform 1s;
 }
 
-/* Zarf kapağı */
-.envelope-flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: #ffb6b6;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform-origin: top;
-  transform: rotateX(0deg);
-  transition: transform 1s;
+.envelope.open::before {
+    transform: rotateX(180deg);
 }
 
-.envelope.open .envelope-flap {
-  transform: rotateX(-180deg);
-}
-
-/* Mektup */
 .letter {
-  background: #fffaf0;
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 10px;
-  min-height: 160px;
-  text-align: left;
-  font-size: 15px;
-  line-height: 1.6;
-  color: #444;
-  display: none;
+    display: none;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 320px;
+    margin: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    animation: fadeIn 1s ease;
 }
 
-/* Kalpler */
-.heart {
-  position: absolute;
-  bottom: -20px;
-  font-size: 18px;
-  animation: floatUp 4s linear infinite;
-  opacity: 0.7;
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
-@keyframes floatUp {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(-120px);
-    opacity: 0;
-  }
+/* Konfeti */
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: red;
+    animation: fall 3s linear forwards;
 }
 
-/* İmza */
-.signature {
-  margin-top: 15px;
-  text-align: right;
-  font-style: italic;
-  color: #666;
-  display: none;
+@keyframes fall {
+    from {transform: translateY(-100px) rotate(0deg);}
+    to {transform: translateY(100vh) rotate(360deg);}
 }
 </style>
 </head>
@@ -144,67 +108,61 @@ button:hover {
 <body>
 
 <div class="container">
-  <h1>Berat için küçük bir sürpriz 🎁</h1>
-  <div class="subtitle">Açmadan önce bir nefes al 😄</div>
+    <h1>Berat için küçük bir sürpriz 🎁</h1>
+    <p>Hazırsan mektubu aç 😄</p>
+    <button onclick="openLetter()">Mektubu Aç</button>
 
-  <button id="openBtn" onclick="openEnvelope()">📩 Mektubu Aç</button>
+    <div class="envelope" id="envelope"></div>
 
-  <div class="envelope" id="envelope">
-    <div class="envelope-body">
-      <div class="envelope-flap"></div>
+    <div class="letter" id="letter">
+        <p>
+            Doğum günün kutlu olsun Beratım 🌹<br><br>
+            Yeni yaşın sana mutluluk, sağlık ve bol bol güzel anılar getirsin.
+            Hayat bazen zorlayıcı olabiliyor ama sen her zaman güçlü kalmayı başarıyorsun.
+            Umarım bu yeni yılda yüzünden gülümseme hiç eksik olmaz 😄<br><br>
+            Pes de bu senede çakıcam 😎 ama her zaman yanında olacağımı da unutma.
+            Nice güzel yaşlara, nice kahkahalara…<br><br>
+        </p>
 
-      <div class="letter" id="letter"></div>
-      <div class="signature" id="signature">— Eren</div>
+        <p style="text-align:center; font-weight:bold;">
+            🌹 sevgilerle said 🌹
+        </p>
     </div>
-  </div>
 </div>
 
+<!-- SES -->
+<audio id="openSound">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-paper-opening-1518.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-const text = 
-`Doğum günün kutlu olsun Beratım 🌹
+function openLetter() {
+    document.querySelector("button").style.display = "none";
 
-Yeni yılda ve yaşında mutluluklar dilerim.
-Pesde bu senede çakıcam 😄
+    const envelope = document.getElementById("envelope");
+    envelope.classList.add("open");
 
-Sevgilerle 🌹🌹🌹`;
+    document.getElementById("openSound").play();
 
-let index = 0;
+    createConfetti();
 
-function openEnvelope() {
-  document.getElementById("openBtn").style.display = "none";
-  const env = document.getElementById("envelope");
-  env.style.display = "block";
-  setTimeout(() => env.classList.add("open"), 100);
-
-  setTimeout(() => {
-    document.getElementById("letter").style.display = "block";
-    typeText();
-    createHearts();
-  }, 900);
+    setTimeout(() => {
+        envelope.style.display = "none";
+        document.getElementById("letter").style.display = "block";
+    }, 1200);
 }
 
-function typeText() {
-  const letter = document.getElementById("letter");
-  if (index < text.length) {
-    letter.innerHTML += text.charAt(index) === "\n" ? "<br>" : text.charAt(index);
-    index++;
-    setTimeout(typeText, 40);
-  } else {
-    document.getElementById("signature").style.display = "block";
-  }
-}
+function createConfetti() {
+    for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.background = ["#ff6b81","#ffd166","#6bcf63","#4dabf7"][Math.floor(Math.random()*4)];
+        confetti.style.animationDuration = (2 + Math.random() * 2) + "s";
+        document.body.appendChild(confetti);
 
-function createHearts() {
-  for (let i = 0; i < 5; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💗";
-    heart.style.left = Math.random() * 90 + "%";
-    heart.style.animationDelay = Math.random() * 2 + "s";
-    document.querySelector(".container").appendChild(heart);
-
-    setTimeout(() => heart.remove(), 4000);
-  }
+        setTimeout(() => confetti.remove(), 3000);
+    }
 }
 </script>
 
