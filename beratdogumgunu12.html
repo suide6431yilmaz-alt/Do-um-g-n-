@@ -2,116 +2,94 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>İyi ki Doğdun Berat 🦁</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
 <style>
 body{
-    margin:0;
-    height:100vh;
-    background: radial-gradient(circle, #ffcc00, #a5002d);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-    font-family: 'Dancing Script', cursive;
+  margin:0;
+  height:100vh;
+  background: linear-gradient(180deg,#a5002d,#ffcc00);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: "Georgia", serif;
 }
 
 /* Zarf */
 .envelope{
-    width:360px;
-    height:240px;
-    background:#8b001f;
-    position:relative;
-    cursor:pointer;
-    border-radius:15px;
-    box-shadow:0 0 40px rgba(0,0,0,0.5);
-    transition:0.4s;
+  width:90vw;
+  max-width:360px;
+  height:220px;
+  background:#8b001f;
+  position:relative;
+  border-radius:15px;
+  cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,0.5);
+  overflow:hidden;
 }
 
-.envelope:hover{
-    transform: scale(1.03);
-}
-
-/* Kapak */
+/* Üst kapak */
 .flap{
-    position:absolute;
-    width:0;
-    height:0;
-    border-left:180px solid transparent;
-    border-right:180px solid transparent;
-    border-bottom:120px solid #ffcc00;
-    top:0;
-    left:0;
-    transform-origin:top;
-    transition:1.2s;
-    z-index:3;
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ffcc00;
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  top:0;
+  left:0;
+  transform-origin:top;
+  transition:1s;
+  z-index:3;
 }
 
 /* Kağıt */
-.letter{
-    position:absolute;
-    width:90%;
-    height:90%;
-    background: #fffbe6;
-    top:10px;
-    left:5%;
-    padding:25px;
-    box-sizing:border-box;
-    border-radius:15px;
-    transform: translateY(130px);
-    transition:1.2s;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+.paper{
+  position:absolute;
+  width:90%;
+  height:300px;
+  background:#fffdf2;
+  top:30px;
+  left:5%;
+  border-radius:10px;
+  padding:20px;
+  box-sizing:border-box;
+  transform: translateY(200px);
+  transition:1s;
+  z-index:2;
 }
 
 /* Açılınca */
 .open .flap{
-    transform: rotateX(180deg);
+  transform: rotateX(180deg);
 }
 
-.open .letter{
-    transform: translateY(-90px);
+.open .paper{
+  transform: translateY(-140px);
 }
 
 /* Yazılar */
 h1{
-    color:#a5002d;
-    text-align:center;
-    font-size:38px;
-    margin-top:0;
+  color:#a5002d;
+  text-align:center;
+  font-size:28px;
+  margin-top:0;
 }
 
 p{
-    font-size:22px;
-    color:#4a0000;
-    text-align:center;
-    line-height:1.6;
+  font-size:18px;
+  text-align:center;
+  line-height:1.6;
+  color:#400000;
 }
 
-/* Aslan efekti */
+/* Aslan */
 .lion{
-    position:absolute;
-    bottom:-20px;
-    right:-20px;
-    font-size:120px;
-    opacity:0.15;
-}
-
-/* Konfeti */
-.confetti{
-    position:absolute;
-    width:8px;
-    height:8px;
-    background:red;
-    top:-10px;
-    animation:fall linear infinite;
-}
-
-@keyframes fall{
-    to{
-        transform: translateY(110vh) rotate(360deg);
-    }
+  position:absolute;
+  bottom:-15px;
+  right:-15px;
+  font-size:80px;
+  opacity:0.15;
 }
 </style>
 </head>
@@ -119,33 +97,23 @@ p{
 <body>
 
 <div class="envelope" onclick="openLetter()">
-    <div class="flap"></div>
+  <div class="flap"></div>
 
-    <div class="letter">
-        <div class="lion">🦁</div>
-        <h1>🌹İyiki Doğdun Berat🌹</h1>
-        <p>
-        Doğum günün kutlu olsun Beratım🌹<br>
-        Yeni yılda ve yaşında mutluluklar dilerim.<br>
-        Pesde bu senede çakmaya devam 😏<br>
-        Seviliyorsun 🌹🌹🌹
-        </p>
-    </div>
+  <div class="paper">
+    <div class="lion">🦁</div>
+    <h1>🌹İyiki Doğdun Berat🌹</h1>
+    <p>
+      Doğum günün kutlu olsun Beratım🌹<br>
+      Yeni yılda ve yaşında mutluluklar dilerim.<br>
+      Pesde bu senede çakmaya devam 😏<br>
+      Seviliyorsun 🌹🌹🌹
+    </p>
+  </div>
 </div>
 
 <script>
 function openLetter(){
-    const env = document.querySelector(".envelope");
-    env.classList.toggle("open");
-
-    for(let i=0;i<80;i++){
-        let c = document.createElement("div");
-        c.className="confetti";
-        c.style.left=Math.random()*100+"vw";
-        c.style.background="hsl("+Math.random()*360+",100%,50%)";
-        c.style.animationDuration=(Math.random()*3+2)+"s";
-        document.body.appendChild(c);
-    }
+  document.querySelector(".envelope").classList.toggle("open");
 }
 </script>
 
