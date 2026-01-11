@@ -3,254 +3,395 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun Berat 🦁</title>
+<title>İyi ki Doğdun Berat Şampiyon!</title>
 
 <style>
 :root {
-  --gs-red: #a50021;
-  --gs-yellow: #fdb912;
+  --gs-red: #e4032b; /* Galatasaray Kırmızı */
+  --gs-yellow: #ffc900; /* Galatasaray Sarı */
   --paper-bg: #fffdf2;
+  --text-color: #333;
 }
 
 body {
   margin: 0;
   height: 100vh;
-  background: radial-gradient(circle, #222 0%, #000 100%);
+  background: linear-gradient(135deg, #1a0101 0%, #3a0202 50%, #1a0101 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   overflow: hidden;
-  perspective: 1000px;
-}
-
-/* --- Arka Plan Animasyonları --- */
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.5;
-  animation: twinkle var(--duration) infinite;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-/* --- Zarf Yapısı --- */
-.envelope-wrapper {
+  perspective: 1500px; /* Daha belirgin 3D efekti için */
   position: relative;
-  cursor: pointer;
-  transition: transform 0.3s;
+  color: var(--text-color);
 }
 
-.envelope-wrapper:hover {
-  transform: translateY(-10px) rotate(-1deg);
-}
-
-.envelope {
-  position: relative;
-  width: 380px;
-  height: 240px;
-  background: var(--gs-red);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-  z-index: 1;
-}
-
-/* Ön Kanatlar */
-.envelope::before {
-  content: "";
+/* --- Arka Plan Dinamikleri (Galatasaray Temalı) --- */
+.background-pattern {
   position: absolute;
-  z-index: 5;
-  border-top: 120px solid transparent;
-  border-right: 190px solid #bd0026;
-  border-bottom: 120px solid #bd0026;
-  border-left: 190px solid transparent;
-  bottom: 0;
-  border-radius: 0 0 10px 10px;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: 
+    repeating-linear-gradient(45deg, var(--gs-red) 0, var(--gs-red) 10px, transparent 10px, transparent 20px),
+    repeating-linear-gradient(-45deg, var(--gs-yellow) 0, var(--gs-yellow) 10px, transparent 10px, transparent 20px);
+  background-size: 80px 80px;
+  opacity: 0.1;
+  animation: backgroundPan 60s linear infinite;
 }
 
-.envelope::after {
-  content: "";
+@keyframes backgroundPan {
+  from { background-position: 0 0; }
+  to { background-position: 800px 800px; }
+}
+
+.spotlight {
   position: absolute;
-  z-index: 4;
-  border-top: 120px solid transparent;
-  border-right: 190px solid transparent;
-  border-bottom: 120px solid #8b0018;
-  border-left: 190px solid #8b0018;
-  bottom: 0;
-  border-radius: 0 0 10px 10px;
-}
-
-/* Üst Kapak */
-.flap {
-  position: absolute;
-  top: 0;
-  width: 380px;
-  height: 240px;
-  background: var(--gs-yellow);
-  clip-path: polygon(0 0, 100% 0, 50% 55%);
-  z-index: 6;
-  transform-origin: top;
-  transition: transform 0.6s ease, z-index 0.2s 0.3s;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-/* Kağıt */
-.paper {
-  position: absolute;
-  width: 340px;
-  height: 300px;
-  background: var(--paper-bg);
-  left: 20px;
-  bottom: 10px;
-  z-index: 3;
-  padding: 30px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-/* Açık Durumu */
-.open .flap {
-  transform: rotateX(180deg);
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+  animation: spotlightPulse 10s ease-in-out infinite alternate;
   z-index: 0;
 }
 
-.open .paper {
-  transform: translateY(-200px);
+@keyframes spotlightPulse {
+  0% { transform: scale(1); opacity: 0.05; }
+  100% { transform: scale(1.2); opacity: 0.15; }
+}
+
+/* --- Zarf Konteyneri --- */
+.envelope-container {
+  position: relative;
+  width: 400px;
+  height: 250px;
+  transform-style: preserve-3d;
+  transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Yaylı animasyon */
+  cursor: pointer;
   z-index: 10;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+}
+
+.envelope-container.open {
+  transform: translateY(-150px) rotateX(70deg) rotateY(15deg) scale(1.1);
+}
+
+/* --- Zarfın Kendisi --- */
+.envelope {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--gs-red);
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* Arka Kapak */
+.envelope::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--gs-red);
+  border-radius: 10px;
+  transform: translateZ(-20px); /* Zarfın kalınlığı */
+}
+
+/* Yan Kanatlar */
+.envelope::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #b80224, #d10228, #b80224);
+  clip-path: polygon(0 0, 50% 50%, 0 100%);
+  transform: translateZ(-10px);
+  border-radius: 10px;
+}
+.envelope .left-flap, .envelope .right-flap {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  background: var(--gs-red);
+  transform-origin: left;
+  transition: transform 0.5s ease-in-out;
+  z-index: 2;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}
+
+.envelope .left-flap {
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Tamamen sol tarafı kapla */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.envelope .right-flap {
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Tamamen sağ tarafı kapla */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Üst Kapak */
+.flap-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gs-yellow);
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  transform-origin: top;
+  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Yumuşak açılma */
+  z-index: 3;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* --- Kağıt İçerik --- */
+.paper {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background: var(--paper-bg);
+  top: 5%;
+  left: 5%;
+  border-radius: 5px;
+  padding: 30px;
+  box-sizing: border-box;
+  transform: translateZ(1px) scale(0.8); /* Zarfın içinde başlangıç */
+  opacity: 0;
+  transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s, opacity 0.8s ease-in 1s;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+}
+
+.paper-shine {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  animation: shineFadeOut 1s forwards;
+  z-index: 1;
+}
+
+@keyframes shineFadeOut {
+  from { opacity: 1; transform: scale(0.5); }
+  to { opacity: 0; transform: scale(2); }
+}
+
+/* Açık Durumdaki Animasyonlar */
+.envelope-container.open .flap-top {
+  transform: rotateX(180deg) translateZ(10px); /* Kapağı tamamen arkaya at ve hafifçe dışarı çıkar */
+}
+
+.envelope-container.open .paper {
+  transform: translateZ(20px) scale(1); /* Kağıdı dışarı ve öne doğru çıkar */
+  opacity: 1;
 }
 
 /* İçerik Stilleri */
 h1 {
   color: var(--gs-red);
-  font-size: 24px;
+  font-size: 2.5em;
   margin-bottom: 15px;
-  border-bottom: 2px solid var(--gs-yellow);
-  display: inline-block;
-  padding-bottom: 5px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  position: relative;
+  animation: textPop 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.5s forwards;
+  opacity: 0;
+}
+@keyframes textPop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 p {
-  color: #333;
-  font-size: 16px;
-  line-height: 1.6;
+  color: #555;
+  font-size: 1.2em;
+  line-height: 1.7;
   font-weight: 500;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-out 1.8s forwards;
+  opacity: 0;
 }
 
 .lion-icon {
-  font-size: 50px;
-  margin-bottom: 10px;
+  font-size: 4em;
+  margin-bottom: 15px;
   display: block;
+  color: var(--gs-yellow);
+  text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+  animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 2.2s forwards;
+  opacity: 0;
+}
+@keyframes bounceIn {
+  0% { transform: scale(0.1); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
 }
 
 .pes-badge {
-  background: #222;
-  color: gold;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  margin-top: 10px;
+  background: var(--gs-red);
+  color: var(--gs-yellow);
+  padding: 8px 15px;
+  border-radius: 25px;
+  font-size: 0.9em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-top: 15px;
   display: inline-block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  animation: fadeIn 1s ease-out 2.5s forwards;
+  opacity: 0;
 }
 
-/* Konfeti */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Konfeti ve Havai Fişekler (Daha Gelişmiş) */
 .confetti {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  z-index: 100;
-  animation: fall 3s linear forwards;
+  width: 10px;
+  height: 10px;
+  z-index: 1000;
+  opacity: 0;
+  animation: confettiFall var(--duration) linear forwards, fadeInOut 1s ease-in-out forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
-@keyframes fall {
-  to { transform: translateY(100vh) rotate(720deg); }
+.firework {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  animation: fireworkExplode 1.5s ease-out forwards;
+  z-index: 1001;
 }
+
+@keyframes fireworkExplode {
+  0% { transform: scale(0); opacity: 1; }
+  20% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.firework-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: var(--color);
+  border-radius: 50%;
+  animation: particleFade var(--delay) ease-out forwards;
+}
+
+@keyframes particleFade {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) scale(0) opacity: 0; }
+}
+
 </style>
 </head>
 <body>
 
-<div class="envelope-wrapper" id="card" onclick="openLetter()">
-  <div class="flap"></div>
-  <div class="envelope"></div>
-  <div class="paper">
-    <span class="lion-icon">🦁</span>
-    <h1>Berat Şampiyon!</h1>
-    <p>
-      Doğum günün kutlu olsun Beratım!<br>
-      Aslanlar gibi bir yaşın olsun. 🦁<br>
-      Pes’te rakipleri sahadan sildiğin, <br>
-      Her maçta 90'a taktığın bir yıl dilerim! ⚽🏆
-    </p>
-    <div class="pes-badge">KING OF PES 🎮</div>
+<div class="background-pattern"></div>
+<div class="spotlight"></div>
+
+<div class="envelope-container" id="card" onclick="openLetter()">
+  <div class="envelope">
+    <div class="flap-top"></div>
+    <div class="paper">
+      <div class="paper-shine"></div> <span class="lion-icon">🦁</span>
+      <h1>Şampiyon Berat!</h1>
+      <p>
+        İyi ki doğdun aslanım Berat!<br>
+        Yeni yaşın sana tüm güzellikleri getirsin.<br>
+        Her zaman olduğu gibi, PES'te rakiplerine fark attığın,<br>
+        Hayatta ise gollerini bir bir sıraladığın harika bir yıl dilerim! ⚽🏆
+      </p>
+      <div class="pes-badge">KRAL OYUNCU 👑</div>
+    </div>
   </div>
 </div>
 
-<audio id="openSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1530.mp3"></audio>
-<audio id="crowdSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-cheer-light-459.mp3"></audio>
-<audio id="anthemSfx" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio> <script>
-// Arka plana yıldız ekle
-for (let i = 0; i < 100; i++) {
-  let star = document.createElement('div');
-  star.className = 'star';
-  star.style.width = Math.random() * 3 + 'px';
-  star.style.height = star.style.width;
-  star.style.left = Math.random() * 100 + 'vw';
-  star.style.top = Math.random() * 100 + 'vh';
-  star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-  document.body.appendChild(star);
-}
-
+<audio id="openSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-sweep-transition-1082.mp3"></audio> <audio id="magicSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-magical-fairy-tale-chime-949.mp3"></audio> <audio id="celebrateSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-firework-burst-and-shimmer-588.mp3"></audio> <audio id="anthemSfx" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio> <script>
 let isOpened = false;
 
 function openLetter() {
   const card = document.getElementById('card');
   const openSfx = document.getElementById('openSfx');
-  const crowdSfx = document.getElementById('crowdSfx');
+  const magicSfx = document.getElementById('magicSfx');
+  const celebrateSfx = document.getElementById('celebrateSfx');
   const anthem = document.getElementById('anthemSfx');
 
   if (!isOpened) {
     card.classList.add('open');
+    openSfx.currentTime = 0; // Sesi baştan başlat
     openSfx.play();
     
     setTimeout(() => {
-      crowdSfx.play();
-      anthem.volume = 0.3;
-      anthem.play();
-      createFireworkEffect();
-    }, 600);
+      magicSfx.currentTime = 0;
+      magicSfx.play();
+      createFirework(); // Tek bir havai fişek patlat
+      createConfettiBurst(); // Konfeti patlaması
+    }, 800); // Zarfın dönme animasyonuyla eşleşsin
+
+    setTimeout(() => {
+        celebrateSfx.currentTime = 0;
+        celebrateSfx.play();
+        anthem.volume = 0.4; // Müziğin sesini ayarla
+        anthem.play();
+    }, 1500); // Kağıt tamamen göründüğünde
     
     isOpened = true;
   }
 }
 
-function createFireworkEffect() {
-  const colors = ['#fdb912', '#a50021', '#ffffff', '#ff0000'];
-  
-  setInterval(() => {
-    if(!isOpened) return;
-    for (let i = 0; i < 20; i++) {
-      const c = document.createElement('div');
-      c.className = 'confetti';
-      c.style.left = Math.random() * 100 + 'vw';
-      c.style.top = '-10px';
-      c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-      c.style.width = Math.random() * 10 + 5 + 'px';
-      c.style.height = c.style.width;
-      document.body.appendChild(c);
-      
-      setTimeout(() => c.remove(), 3000);
-    }
-  }, 500);
+function createConfettiBurst() {
+  const colors = ['var(--gs-yellow)', 'var(--gs-red)', '#ffffff', '#ffd700', '#c0c0c0'];
+  for (let i = 0; i < 50; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.top = Math.random() * -20 + 'vh'; // Ekranın üstünden başlasın
+    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = Math.random() * 8 + 5 + 'px';
+    c.style.height = c.style.width;
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.style.setProperty('--duration', Math.random() * 2 + 3 + 's'); // Farklı düşüş hızları
+    document.body.appendChild(c);
+    
+    setTimeout(() => c.remove(), 5000);
+  }
 }
-</script>
 
-</body>
-</html>
+function createFirework() {
+  const fireworkColors = ['var(--gs-red)', 'var(--gs-yellow)', '#ffffff'];
+  
