@@ -6,166 +6,249 @@
 <title>İyi ki Doğdun Berat 🦁</title>
 
 <style>
-body{
-  margin:0;
-  height:100vh;
-  background: linear-gradient(180deg,#7b001a,#ffcc00);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family: "Georgia", serif;
-  overflow:hidden;
+:root {
+  --gs-red: #a50021;
+  --gs-yellow: #fdb912;
+  --paper-bg: #fffdf2;
 }
 
-/* Konfeti */
-.confetti{
-  position:absolute;
-  width:10px;
-  height:10px;
-  background:red;
-  animation: fall 4s linear infinite;
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle, #222 0%, #000 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  perspective: 1000px;
 }
 
-@keyframes fall{
-  from{transform: translateY(-50px) rotate(0deg);}
-  to{transform: translateY(110vh) rotate(360deg);}
+/* --- Arka Plan Animasyonları --- */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: twinkle var(--duration) infinite;
 }
 
-/* Zarf */
-.envelope{
-  width:90vw;
-  max-width:360px;
-  height:220px;
-  background:#8b001f;
-  position:relative;
-  border-radius:15px;
-  cursor:pointer;
-  box-shadow:0 20px 50px rgba(0,0,0,0.6);
-  overflow:hidden;
-  transition:0.5s;
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 
-.envelope:hover{
-  transform: scale(1.03);
+/* --- Zarf Yapısı --- */
+.envelope-wrapper {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
-/* Üst kapak */
-.flap{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:#ffcc00;
-  clip-path: polygon(0 0, 100% 0, 50% 50%);
-  top:0;
-  left:0;
-  transform-origin:top;
-  transition:1s ease-in-out;
-  z-index:3;
+.envelope-wrapper:hover {
+  transform: translateY(-10px) rotate(-1deg);
+}
+
+.envelope {
+  position: relative;
+  width: 380px;
+  height: 240px;
+  background: var(--gs-red);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  z-index: 1;
+}
+
+/* Ön Kanatlar */
+.envelope::before {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  border-top: 120px solid transparent;
+  border-right: 190px solid #bd0026;
+  border-bottom: 120px solid #bd0026;
+  border-left: 190px solid transparent;
+  bottom: 0;
+  border-radius: 0 0 10px 10px;
+}
+
+.envelope::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  border-top: 120px solid transparent;
+  border-right: 190px solid transparent;
+  border-bottom: 120px solid #8b0018;
+  border-left: 190px solid #8b0018;
+  bottom: 0;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Üst Kapak */
+.flap {
+  position: absolute;
+  top: 0;
+  width: 380px;
+  height: 240px;
+  background: var(--gs-yellow);
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  z-index: 6;
+  transform-origin: top;
+  transition: transform 0.6s ease, z-index 0.2s 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 /* Kağıt */
-.paper{
-  position:absolute;
-  width:90%;
-  height:320px;
-  background:#fffdf2;
-  top:30px;
-  left:5%;
-  border-radius:12px;
-  padding:20px;
-  box-sizing:border-box;
-  transform: translateY(220px);
-  transition:1.2s cubic-bezier(.2,1,.2,1);
-  z-index:2;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+.paper {
+  position: absolute;
+  width: 340px;
+  height: 300px;
+  background: var(--paper-bg);
+  left: 20px;
+  bottom: 10px;
+  z-index: 3;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+  text-align: center;
 }
 
-/* Açılınca */
-.open .flap{
+/* Açık Durumu */
+.open .flap {
   transform: rotateX(180deg);
+  z-index: 0;
 }
 
-.open .paper{
-  transform: translateY(-160px);
+.open .paper {
+  transform: translateY(-200px);
+  z-index: 10;
 }
 
-/* Yazılar */
-h1{
-  color:#a5002d;
-  text-align:center;
-  font-size:28px;
-  margin-top:0;
+/* İçerik Stilleri */
+h1 {
+  color: var(--gs-red);
+  font-size: 24px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--gs-yellow);
+  display: inline-block;
+  padding-bottom: 5px;
 }
 
-p{
-  font-size:18px;
-  text-align:center;
-  line-height:1.6;
-  color:#400000;
+p {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 500;
 }
 
-/* Aslan */
-.lion{
-  position:absolute;
-  bottom:-10px;
-  right:-10px;
-  font-size:80px;
-  opacity:0.15;
+.lion-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.pes-badge {
+  background: #222;
+  color: gold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* Konfeti */
+.confetti {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  z-index: 100;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(100vh) rotate(720deg); }
 }
 </style>
 </head>
-
 <body>
 
-<div class="envelope" onclick="openLetter()">
+<div class="envelope-wrapper" id="card" onclick="openLetter()">
   <div class="flap"></div>
-
+  <div class="envelope"></div>
   <div class="paper">
-    <div class="lion">🦁</div>
-    <h1>🌹 İyi ki Doğdun Berat 🌹</h1>
+    <span class="lion-icon">🦁</span>
+    <h1>Berat Şampiyon!</h1>
     <p>
-      Doğum günün kutlu olsun Beratım 🎉<br>
-      Yeni yaşında bol mutluluk, sağlık ve başarı diliyorum.<br>
-      Pes’te yine herkesi çakmaya devam 😏<br>
-      İyi ki varsın 🦁❤️
+      Doğum günün kutlu olsun Beratım!<br>
+      Aslanlar gibi bir yaşın olsun. 🦁<br>
+      Pes’te rakipleri sahadan sildiğin, <br>
+      Her maçta 90'a taktığın bir yıl dilerim! ⚽🏆
     </p>
+    <div class="pes-badge">KING OF PES 🎮</div>
   </div>
 </div>
 
-<!-- Sesler -->
-<audio id="openSound" src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1530.mp3"></audio>
-<audio id="celebrateSound" src="https://assets.mixkit.co/sfx/preview/mixkit-small-crowd-cheer-364.mp3"></audio>
+<audio id="openSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1530.mp3"></audio>
+<audio id="crowdSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-cheer-light-459.mp3"></audio>
+<audio id="anthemSfx" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio> <script>
+// Arka plana yıldız ekle
+for (let i = 0; i < 100; i++) {
+  let star = document.createElement('div');
+  star.className = 'star';
+  star.style.width = Math.random() * 3 + 'px';
+  star.style.height = star.style.width;
+  star.style.left = Math.random() * 100 + 'vw';
+  star.style.top = Math.random() * 100 + 'vh';
+  star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+  document.body.appendChild(star);
+}
 
-<script>
-let opened = false;
+let isOpened = false;
 
-function openLetter(){
-  const env = document.querySelector(".envelope");
-  const openSound = document.getElementById("openSound");
-  const celebrate = document.getElementById("celebrateSound");
+function openLetter() {
+  const card = document.getElementById('card');
+  const openSfx = document.getElementById('openSfx');
+  const crowdSfx = document.getElementById('crowdSfx');
+  const anthem = document.getElementById('anthemSfx');
 
-  env.classList.toggle("open");
-
-  if(!opened){
-    openSound.play();
-    celebrate.play();
-    makeConfetti();
-    opened = true;
+  if (!isOpened) {
+    card.classList.add('open');
+    openSfx.play();
+    
+    setTimeout(() => {
+      crowdSfx.play();
+      anthem.volume = 0.3;
+      anthem.play();
+      createFireworkEffect();
+    }, 600);
+    
+    isOpened = true;
   }
 }
 
-/* Konfeti oluştur */
-function makeConfetti(){
-  for(let i=0;i<40;i++){
-    const c = document.createElement("div");
-    c.classList.add("confetti");
-    c.style.left = Math.random()*100+"vw";
-    c.style.background = ["#ffcc00","#ff0033","#ffffff","#ffa500"][Math.floor(Math.random()*4)];
-    c.style.animationDuration = (Math.random()*3+2)+"s";
-    document.body.appendChild(c);
-
-    setTimeout(()=>c.remove(),5000);
-  }
+function createFireworkEffect() {
+  const colors = ['#fdb912', '#a50021', '#ffffff', '#ff0000'];
+  
+  setInterval(() => {
+    if(!isOpened) return;
+    for (let i = 0; i < 20; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-10px';
+      c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.width = Math.random() * 10 + 5 + 'px';
+      c.style.height = c.style.width;
+      document.body.appendChild(c);
+      
+      setTimeout(() => c.remove(), 3000);
+    }
+  }, 500);
 }
 </script>
 
