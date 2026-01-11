@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İyi ki Doğdun Berat 🦁</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(180deg,#7b001a,#ffcc00);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Georgia,serif;
+  overflow:hidden;
+}
+
+/* Mektup zarfı */
+.letter{
+  width:90vw;
+  max-width:360px;
+  height:220px;
+  background:#8b001f;
+  border-radius:16px;
+  position:relative;
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+  overflow:hidden;
+  animation:shake 1.2s infinite;
+}
+
+/* Titreme */
+@keyframes shake{
+  0%{transform:rotate(0deg)}
+  25%{transform:rotate(.8deg)}
+  50%{transform:rotate(0deg)}
+  75%{transform:rotate(-.8deg)}
+}
+
+/* Mühür */
+.seal{
+  position:absolute;
+  width:70px;
+  height:70px;
+  background:#ffcc00;
+  border-radius:50%;
+  top:75px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:32px;
+  z-index:5;
+  transition:.8s;
+}
+
+/* Kağıt */
+.paper{
+  position:absolute;
+  width:92%;
+  height:320px;
+  background:#fffdf2;
+  left:4%;
+  top:200px;
+  border-radius:12px;
+  padding:20px;
+  box-sizing:border-box;
+  transition:2s cubic-bezier(.2,1,.2,1);
+  z-index:2;
+}
+
+/* Açılınca */
+.open .seal{
+  transform:translateX(-50%) scale(0);
+}
+
+.open{
+  animation:none;
+}
+
+.open .paper{
+  top:-140px;
+}
+
+/* Yazı */
+h1{
+  color:#a5002d;
+  text-align:center;
+  margin:0;
+  font-size:26px;
+}
+p{
+  text-align:center;
+  font-size:17px;
+  line-height:1.6;
+  color:#400000;
+}
+
+.lion{
+  position:absolute;
+  bottom:-10px;
+  right:-10px;
+  font-size:80px;
+  opacity:.15;
+}
+</style>
+</head>
+
+<body>
+
+<div class="letter" id="letter">
+  <div class="seal">🦁</div>
+
+  <div class="paper">
+    <div class="lion">🦁</div>
+    <h1>🌹 İyi ki Doğdun Berat 🌹</h1>
+    <p>
+      Doğum günün kutlu olsun Beratım 🎉<br>
+      Yeni yaşında bol mutluluk, sağlık ve başarı diliyorum.<br>
+      Pes’te yine herkesi çakmaya devam 😏<br>
+      İyi ki varsın 🦁❤️
+    </p>
+  </div>
+</div>
+
+<audio id="breakSound" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b0b2c1c9c.mp3?filename=paper-slide-103090.mp3">
+</audio>
+
+<script>
+let opened=false;
+
+window.addEventListener("devicemotion", function(e){
+  let a = e.accelerationIncludingGravity;
+  let force = Math.abs(a.x)+Math.abs(a.y)+Math.abs(a.z);
+
+  if(force > 25 && !opened){
+    openLetter();
+  }
+});
+
+function openLetter(){
+  opened=true;
+  document.getElementById("letter").classList.add("open");
+  document.getElementById("breakSound").play();
+}
+</script>
+
+</body>
+</html>
