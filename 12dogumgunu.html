@@ -3,119 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun Berat 🦁</title>
+<title>İyi ki Doğdun Berat</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
-  background:radial-gradient(circle,#3b0000,#000);
+  background:linear-gradient(180deg,#8b001f,#ffcc00);
   display:flex;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
   font-family:Georgia,serif;
-}
-
-/* Sahne ışığı */
-.light{
-  position:absolute;
-  width:300px;
-  height:300px;
-  background:radial-gradient(circle,rgba(255,200,0,.4),transparent 70%);
-  filter:blur(20px);
-}
-
-/* Parşömen */
-.scroll{
-  width:300px;
-  height:180px;
-  background:linear-gradient(#f9f2dc,#e6d3a3);
-  border-radius:12px;
-  position:relative;
-  box-shadow:0 20px 40px rgba(0,0,0,.8);
-  animation:shake 0.6s infinite;
   overflow:hidden;
 }
 
-/* Güçlü titreme */
+/* Konfeti */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  from{transform:translateY(-40px);}
+  to{transform:translateY(110vh);}
+}
+
+/* Mektup */
+.letter{
+  width:300px;
+  height:200px;
+  background:#fffdf2;
+  border-radius:16px;
+  box-shadow:0 15px 40px rgba(0,0,0,.5);
+  position:relative;
+  cursor:pointer;
+  animation:shake 0.8s infinite;
+  overflow:hidden;
+  transition:1s;
+}
+
+/* Titreme */
 @keyframes shake{
   0%{transform:rotate(0deg)}
-  25%{transform:rotate(1.5deg)}
+  25%{transform:rotate(1.2deg)}
   50%{transform:rotate(0deg)}
-  75%{transform:rotate(-1.5deg)}
+  75%{transform:rotate(-1.2deg)}
 }
 
-/* Mühür */
+/* Küçük mühür */
 .seal{
   position:absolute;
-  width:80px;
-  height:80px;
+  width:36px;
+  height:36px;
   background:#a5002d;
   border-radius:50%;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
+  top:10px;
+  right:10px;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:36px;
+  font-size:18px;
   color:#ffcc00;
   z-index:5;
-  box-shadow:0 0 20px #ffcc00;
-  transition:1s;
+  transition:.8s;
 }
 
 /* İç kağıt */
 .paper{
   position:absolute;
   width:100%;
-  height:360px;
-  top:140px;
-  left:0;
-  background:linear-gradient(#fffdf2,#e8d9a8);
+  height:100%;
+  background:#fffdf2;
   padding:20px;
   box-sizing:border-box;
   text-align:center;
-  transition:2s cubic-bezier(.2,1,.2,1);
+  transform:scale(.85);
+  opacity:0;
+  transition:1s;
 }
 
 /* Açılınca */
 .open{
   animation:none;
-}
-.open .seal{
-  transform:translate(-50%,-50%) scale(0);
-}
-.open .paper{
-  top:-180px;
+  transform:scale(1.15);
 }
 
+.open .seal{
+  transform:scale(0);
+}
+
+.open .paper{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Yazı */
 h1{
-  color:#7b001a;
-  margin:0;
+  color:#a5002d;
+  font-size:22px;
+  margin-top:0;
 }
 p{
   color:#400000;
+  font-size:16px;
   line-height:1.6;
-  font-size:17px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="light"></div>
-
-<div class="scroll" id="scroll">
-  <div class="seal">🦁</div>
-
+<div class="letter" onclick="openLetter()">
+  <div class="seal">🌹</div>
   <div class="paper">
-    <h1>🌹 İyi ki Doğdun Berat 🌹</h1>
+    <h1>🌹 İyiki Doğdun Berat 🌹</h1>
     <p>
       Doğum günün kutlu olsun Beratım 🎉<br>
-      Yeni yaşında bol mutluluk, sağlık ve başarı diliyorum.<br>
-      Pes’te yine herkesi çakmaya devam 😏<br>
+      Yeni yaşında bol mutluluk ve başarı diliyorum.<br>
+      Pes’te herkesi yine çakmaya devam 😏<br>
       İyi ki varsın 🦁❤️
     </p>
   </div>
@@ -123,16 +130,23 @@ p{
 
 <script>
 let opened=false;
+function openLetter(){
+  const l=document.querySelector(".letter");
+  l.classList.add("open");
 
-window.addEventListener("devicemotion", e=>{
-  let a=e.accelerationIncludingGravity;
-  let power=Math.abs(a.x)+Math.abs(a.y)+Math.abs(a.z);
-
-  if(power>25 && !opened){
-    document.getElementById("scroll").classList.add("open");
+  if(!opened){
     opened=true;
+    for(let i=0;i<40;i++){
+      const c=document.createElement("div");
+      c.className="confetti";
+      c.style.left=Math.random()*100+"vw";
+      c.style.background=["#ffcc00","#ff0033","#fff","#ffa500"][Math.floor(Math.random()*4)];
+      c.style.animationDuration=(Math.random()*3+2)+"s";
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),5000);
+    }
   }
-});
+}
 </script>
 
 </body>
