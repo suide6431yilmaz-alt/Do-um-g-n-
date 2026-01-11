@@ -4,26 +4,34 @@
 <meta charset="UTF-8">
 <title>İyi ki Doğdun Berat 🦁</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
 <style>
 body{
     margin:0;
     height:100vh;
-    background: linear-gradient(135deg, #a5002d, #ffcc00);
+    background: radial-gradient(circle, #ffcc00, #a5002d);
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family: 'Georgia', serif;
+    overflow:hidden;
+    font-family: 'Dancing Script', cursive;
 }
 
 /* Zarf */
 .envelope{
-    width:350px;
-    height:220px;
+    width:360px;
+    height:240px;
     background:#8b001f;
     position:relative;
     cursor:pointer;
-    box-shadow:0 0 30px rgba(0,0,0,0.4);
-    border-radius:10px;
+    border-radius:15px;
+    box-shadow:0 0 40px rgba(0,0,0,0.5);
+    transition:0.4s;
+}
+
+.envelope:hover{
+    transform: scale(1.03);
 }
 
 /* Kapak */
@@ -31,58 +39,79 @@ body{
     position:absolute;
     width:0;
     height:0;
-    border-left:175px solid transparent;
-    border-right:175px solid transparent;
-    border-bottom:110px solid #ffcc00;
+    border-left:180px solid transparent;
+    border-right:180px solid transparent;
+    border-bottom:120px solid #ffcc00;
     top:0;
     left:0;
     transform-origin:top;
-    transition:1s;
+    transition:1.2s;
     z-index:3;
 }
 
-/* İç kağıt */
+/* Kağıt */
 .letter{
     position:absolute;
     width:90%;
     height:90%;
-    background:white;
+    background: #fffbe6;
     top:10px;
     left:5%;
-    padding:20px;
+    padding:25px;
     box-sizing:border-box;
-    transform: translateY(120px);
-    transition:1s;
-    border-radius:10px;
-    overflow:hidden;
+    border-radius:15px;
+    transform: translateY(130px);
+    transition:1.2s;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* Açılınca */
 .open .flap{
     transform: rotateX(180deg);
 }
 
 .open .letter{
-    transform: translateY(-80px);
+    transform: translateY(-90px);
 }
 
-/* Yazı */
+/* Yazılar */
 h1{
     color:#a5002d;
     text-align:center;
+    font-size:38px;
+    margin-top:0;
 }
 
 p{
-    font-size:18px;
-    line-height:1.5;
+    font-size:22px;
+    color:#4a0000;
+    text-align:center;
+    line-height:1.6;
 }
 
-/* Galatasaray logosu (aslan efekti) */
+/* Aslan efekti */
 .lion{
     position:absolute;
-    top:-60px;
-    right:-60px;
-    font-size:100px;
-    opacity:0.2;
+    bottom:-20px;
+    right:-20px;
+    font-size:120px;
+    opacity:0.15;
+}
+
+/* Konfeti */
+.confetti{
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:red;
+    top:-10px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    to{
+        transform: translateY(110vh) rotate(360deg);
+    }
 }
 </style>
 </head>
@@ -96,17 +125,27 @@ p{
         <div class="lion">🦁</div>
         <h1>🌹İyiki Doğdun Berat🌹</h1>
         <p>
-        Doğum günün kutlu olsun Beratım🌹.<br>
+        Doğum günün kutlu olsun Beratım🌹<br>
         Yeni yılda ve yaşında mutluluklar dilerim.<br>
-        Pesde bu senede çakmaya devam.<br>
-        Seviliyorsun🌹🌹🌹
+        Pesde bu senede çakmaya devam 😏<br>
+        Seviliyorsun 🌹🌹🌹
         </p>
     </div>
 </div>
 
 <script>
 function openLetter(){
-    document.querySelector(".envelope").classList.toggle("open");
+    const env = document.querySelector(".envelope");
+    env.classList.toggle("open");
+
+    for(let i=0;i<80;i++){
+        let c = document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background="hsl("+Math.random()*360+",100%,50%)";
+        c.style.animationDuration=(Math.random()*3+2)+"s";
+        document.body.appendChild(c);
+    }
 }
 </script>
 
