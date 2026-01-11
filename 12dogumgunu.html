@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun Berat</title>
+<title>İyiki Doğdun Berat</title>
 
 <style>
+*{box-sizing:border-box;}
 body{
   margin:0;
   height:100vh;
-  background:linear-gradient(180deg,#8b001f,#ffcc00);
+  background:radial-gradient(circle at top,#ffcc00 0%,#8b001f 70%);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -21,130 +22,170 @@ body{
 .confetti{
   position:absolute;
   width:10px;
-  height:10px;
-  border-radius:50%;
-  animation:fall linear infinite;
+  height:14px;
+  opacity:.9;
+  animation:fall linear forwards;
 }
 @keyframes fall{
-  from{transform:translateY(-40px);}
-  to{transform:translateY(110vh);}
+  from{transform:translateY(-50px) rotate(0deg);}
+  to{transform:translateY(110vh) rotate(360deg);}
 }
 
-/* Mektup */
-.letter{
-  width:300px;
-  height:200px;
-  background:#fffdf2;
-  border-radius:16px;
-  box-shadow:0 15px 40px rgba(0,0,0,.5);
+/* Zarf */
+.envelope{
+  width:320px;
+  height:220px;
+  background:#f6f1e7;
+  border-radius:10px;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
   position:relative;
-  cursor:pointer;
-  animation:shake 0.8s infinite;
   overflow:hidden;
-  transition:1s;
+  animation:wobble 0.8s infinite;
 }
-
-/* Titreme */
-@keyframes shake{
+@keyframes wobble{
   0%{transform:rotate(0deg)}
   25%{transform:rotate(1.2deg)}
   50%{transform:rotate(0deg)}
   75%{transform:rotate(-1.2deg)}
 }
 
-/* Küçük mühür */
+/* Üst kapak */
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#e8e1d4;
+  clip-path:polygon(0 0,100% 0,50% 50%);
+  top:0;
+  left:0;
+  transition:1s;
+  z-index:3;
+}
+
+/* Mühür */
 .seal{
   position:absolute;
-  width:36px;
-  height:36px;
+  width:44px;
+  height:44px;
   background:#a5002d;
   border-radius:50%;
-  top:10px;
-  right:10px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:18px;
+  font-size:22px;
   color:#ffcc00;
   z-index:5;
   transition:.8s;
 }
 
-/* İç kağıt */
+/* Kağıt */
 .paper{
   position:absolute;
-  width:100%;
-  height:100%;
-  background:#fffdf2;
-  padding:20px;
-  box-sizing:border-box;
+  width:90%;
+  height:85%;
+  background:#fffdf5;
+  left:5%;
+  top:8%;
+  border-radius:8px;
+  padding:15px;
   text-align:center;
-  transform:scale(.85);
+  transform:translateY(40%) scale(.8);
   opacity:0;
   transition:1s;
+  z-index:2;
 }
 
-/* Açılınca */
+/* Açık hali */
 .open{
   animation:none;
-  transform:scale(1.15);
 }
-
+.open .flap{
+  transform:rotateX(180deg);
+}
 .open .seal{
-  transform:scale(0);
+  transform:translate(-50%,-50%) scale(0);
 }
-
 .open .paper{
+  transform:translateY(0) scale(1.1);
   opacity:1;
-  transform:scale(1);
 }
 
-/* Yazı */
+/* Yazılar */
 h1{
-  color:#a5002d;
   font-size:22px;
-  margin-top:0;
+  color:#a5002d;
+  margin:0 0 10px 0;
 }
 p{
   color:#400000;
-  font-size:16px;
-  line-height:1.6;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* Sallayınca yazısı */
+.hint{
+  position:absolute;
+  bottom:20px;
+  color:#fff;
+  font-size:14px;
+  opacity:.8;
 }
 </style>
 </head>
 
 <body>
 
-<div class="letter" onclick="openLetter()">
+<div class="envelope">
+  <div class="flap"></div>
   <div class="seal">🌹</div>
   <div class="paper">
-    <h1>🌹 İyiki Doğdun Berat 🌹</h1>
+    <h1>🌹İyiki Doğdun Berat 🌹</h1>
     <p>
-      Doğum günün kutlu olsun Beratım 🎉<br>
-      Yeni yaşında bol mutluluk ve başarı diliyorum.<br>
-      Pes’te herkesi yine çakmaya devam 😏<br>
-      İyi ki varsın 🦁❤️
+İyiki doğdun Beratım 16'nı kutluyorum.<br>
+Yeni yılda ve yaşında mutluluklar dilerim.Pesde bu senede çakmaya devam<br>
+🌹 Seviliyorsun 🌹
     </p>
   </div>
 </div>
 
+<div class="hint">📱 Sallayarak aç</div>
+
 <script>
 let opened=false;
+
+// Sallama algılama
+if (window.DeviceMotionEvent) {
+  window.addEventListener("devicemotion", function (e) {
+    const acc = e.accelerationIncludingGravity;
+    if (!acc) return;
+
+    const total = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+
+    if (total > 30 && !opened) {
+      openLetter();
+    }
+  });
+}
+
 function openLetter(){
-  const l=document.querySelector(".letter");
-  l.classList.add("open");
+  const e=document.querySelector(".envelope");
+  e.classList.add("open");
 
   if(!opened){
     opened=true;
-    for(let i=0;i<40;i++){
+    for(let i=0;i<50;i++){
       const c=document.createElement("div");
       c.className="confetti";
       c.style.left=Math.random()*100+"vw";
-      c.style.background=["#ffcc00","#ff0033","#fff","#ffa500"][Math.floor(Math.random()*4)];
+      c.style.background=["#ffcc00","#a5002d","#ffffff","#ff8800"][Math.floor(Math.random()*4)];
       c.style.animationDuration=(Math.random()*3+2)+"s";
       document.body.appendChild(c);
-      setTimeout(()=>c.remove(),5000);
+      setTimeout(()=>c.remove(),6000);
     }
+    document.querySelector(".hint").style.display="none";
   }
 }
 </script>
