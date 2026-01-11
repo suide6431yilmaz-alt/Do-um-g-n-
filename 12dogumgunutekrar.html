@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İyi ki Doğdun Berat</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(180deg,#8b001f,#ffcc00);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Georgia,serif;
+  overflow:hidden;
+}
+
+/* Konfeti */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  from{transform:translateY(-40px);}
+  to{transform:translateY(110vh);}
+}
+
+/* Mektup */
+.letter{
+  width:300px;
+  height:200px;
+  background:#fffdf2;
+  border-radius:16px;
+  box-shadow:0 15px 40px rgba(0,0,0,.5);
+  position:relative;
+  cursor:pointer;
+  animation:shake 0.8s infinite;
+  overflow:hidden;
+  transition:1s;
+}
+
+/* Titreme */
+@keyframes shake{
+  0%{transform:rotate(0deg)}
+  25%{transform:rotate(1.2deg)}
+  50%{transform:rotate(0deg)}
+  75%{transform:rotate(-1.2deg)}
+}
+
+/* Küçük mühür */
+.seal{
+  position:absolute;
+  width:36px;
+  height:36px;
+  background:#a5002d;
+  border-radius:50%;
+  top:10px;
+  right:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:18px;
+  color:#ffcc00;
+  z-index:5;
+  transition:.8s;
+}
+
+/* İç kağıt */
+.paper{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#fffdf2;
+  padding:20px;
+  box-sizing:border-box;
+  text-align:center;
+  transform:scale(.85);
+  opacity:0;
+  transition:1s;
+}
+
+/* Açılınca */
+.open{
+  animation:none;
+  transform:scale(1.15);
+}
+
+.open .seal{
+  transform:scale(0);
+}
+
+.open .paper{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Yazı */
+h1{
+  color:#a5002d;
+  font-size:22px;
+  margin-top:0;
+}
+p{
+  color:#400000;
+  font-size:16px;
+  line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="letter" onclick="openLetter()">
+  <div class="seal">🌹</div>
+  <div class="paper">
+    <h1>🌹 İyiki Doğdun Berat 🌹</h1>
+    <p>
+      Doğum günün kutlu olsun Beratım 🎉<br>
+      Yeni yaşında bol mutluluk ve başarı diliyorum.<br>
+      Pes’te herkesi yine çakmaya devam 😏<br>
+      İyi ki varsın 🦁❤️
+    </p>
+  </div>
+</div>
+
+<script>
+let opened=false;
+function openLetter(){
+  const l=document.querySelector(".letter");
+  l.classList.add("open");
+
+  if(!opened){
+    opened=true;
+    for(let i=0;i<40;i++){
+      const c=document.createElement("div");
+      c.className="confetti";
+      c.style.left=Math.random()*100+"vw";
+      c.style.background=["#ffcc00","#ff0033","#fff","#ffa500"][Math.floor(Math.random()*4)];
+      c.style.animationDuration=(Math.random()*3+2)+"s";
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),5000);
+    }
+  }
+}
+</script>
+
+</body>
+</html>
