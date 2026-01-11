@@ -9,11 +9,26 @@
 body{
   margin:0;
   height:100vh;
-  background: linear-gradient(180deg,#a5002d,#ffcc00);
+  background: linear-gradient(180deg,#7b001a,#ffcc00);
   display:flex;
   justify-content:center;
   align-items:center;
   font-family: "Georgia", serif;
+  overflow:hidden;
+}
+
+/* Konfeti */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background:red;
+  animation: fall 4s linear infinite;
+}
+
+@keyframes fall{
+  from{transform: translateY(-50px) rotate(0deg);}
+  to{transform: translateY(110vh) rotate(360deg);}
 }
 
 /* Zarf */
@@ -25,8 +40,13 @@ body{
   position:relative;
   border-radius:15px;
   cursor:pointer;
-  box-shadow:0 15px 40px rgba(0,0,0,0.5);
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
   overflow:hidden;
+  transition:0.5s;
+}
+
+.envelope:hover{
+  transform: scale(1.03);
 }
 
 /* Üst kapak */
@@ -39,7 +59,7 @@ body{
   top:0;
   left:0;
   transform-origin:top;
-  transition:1s;
+  transition:1s ease-in-out;
   z-index:3;
 }
 
@@ -47,16 +67,17 @@ body{
 .paper{
   position:absolute;
   width:90%;
-  height:300px;
+  height:320px;
   background:#fffdf2;
   top:30px;
   left:5%;
-  border-radius:10px;
+  border-radius:12px;
   padding:20px;
   box-sizing:border-box;
-  transform: translateY(200px);
-  transition:1s;
+  transform: translateY(220px);
+  transition:1.2s cubic-bezier(.2,1,.2,1);
   z-index:2;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 /* Açılınca */
@@ -65,7 +86,7 @@ body{
 }
 
 .open .paper{
-  transform: translateY(-140px);
+  transform: translateY(-160px);
 }
 
 /* Yazılar */
@@ -86,8 +107,8 @@ p{
 /* Aslan */
 .lion{
   position:absolute;
-  bottom:-15px;
-  right:-15px;
+  bottom:-10px;
+  right:-10px;
   font-size:80px;
   opacity:0.15;
 }
@@ -101,19 +122,50 @@ p{
 
   <div class="paper">
     <div class="lion">🦁</div>
-    <h1>🌹İyiki Doğdun Berat🌹</h1>
+    <h1>🌹 İyi ki Doğdun Berat 🌹</h1>
     <p>
-      Doğum günün kutlu olsun Beratım🌹<br>
-      Yeni yılda ve yaşında mutluluklar dilerim.<br>
-      Pesde bu senede çakmaya devam 😏<br>
-      Seviliyorsun 🌹🌹🌹
+      Doğum günün kutlu olsun Beratım 🎉<br>
+      Yeni yaşında bol mutluluk, sağlık ve başarı diliyorum.<br>
+      Pes’te yine herkesi çakmaya devam 😏<br>
+      İyi ki varsın 🦁❤️
     </p>
   </div>
 </div>
 
+<!-- Sesler -->
+<audio id="openSound" src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1530.mp3"></audio>
+<audio id="celebrateSound" src="https://assets.mixkit.co/sfx/preview/mixkit-small-crowd-cheer-364.mp3"></audio>
+
 <script>
+let opened = false;
+
 function openLetter(){
-  document.querySelector(".envelope").classList.toggle("open");
+  const env = document.querySelector(".envelope");
+  const openSound = document.getElementById("openSound");
+  const celebrate = document.getElementById("celebrateSound");
+
+  env.classList.toggle("open");
+
+  if(!opened){
+    openSound.play();
+    celebrate.play();
+    makeConfetti();
+    opened = true;
+  }
+}
+
+/* Konfeti oluştur */
+function makeConfetti(){
+  for(let i=0;i<40;i++){
+    const c = document.createElement("div");
+    c.classList.add("confetti");
+    c.style.left = Math.random()*100+"vw";
+    c.style.background = ["#ffcc00","#ff0033","#ffffff","#ffa500"][Math.floor(Math.random()*4)];
+    c.style.animationDuration = (Math.random()*3+2)+"s";
+    document.body.appendChild(c);
+
+    setTimeout(()=>c.remove(),5000);
+  }
 }
 </script>
 
