@@ -3,395 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun Berat Şampiyon!</title>
+<title>İyi ki Doğdun Berat 🦁</title>
 
 <style>
-:root {
-  --gs-red: #e4032b; /* Galatasaray Kırmızı */
-  --gs-yellow: #ffc900; /* Galatasaray Sarı */
-  --paper-bg: #fffdf2;
-  --text-color: #333;
+body{
+  margin:0;
+  height:100vh;
+  background: radial-gradient(circle at top,#ffcc00,#7b001a);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: "Georgia", serif;
+  overflow:hidden;
 }
 
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #1a0101 0%, #3a0202 50%, #1a0101 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Montserrat', sans-serif;
-  overflow: hidden;
-  perspective: 1500px; /* Daha belirgin 3D efekti için */
-  position: relative;
-  color: var(--text-color);
+/* Konfeti */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  animation: fall linear infinite;
+}
+@keyframes fall{
+  from{transform: translateY(-50px) rotate(0deg);}
+  to{transform: translateY(110vh) rotate(360deg);}
 }
 
-/* --- Arka Plan Dinamikleri (Galatasaray Temalı) --- */
-.background-pattern {
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  top: -50%;
-  left: -50%;
-  background: 
-    repeating-linear-gradient(45deg, var(--gs-red) 0, var(--gs-red) 10px, transparent 10px, transparent 20px),
-    repeating-linear-gradient(-45deg, var(--gs-yellow) 0, var(--gs-yellow) 10px, transparent 10px, transparent 20px);
-  background-size: 80px 80px;
-  opacity: 0.1;
-  animation: backgroundPan 60s linear infinite;
+/* Zarf */
+.envelope{
+  width:90vw;
+  max-width:360px;
+  height:220px;
+  background:#8b001f;
+  position:relative;
+  border-radius:15px;
+  cursor:pointer;
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
+  overflow:hidden;
+  transition:.4s;
+}
+.envelope:hover{transform:scale(1.03);}
+
+/* Kapak */
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ffcc00;
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  top:0;left:0;
+  transform-origin:top;
+  transition:1s ease-in-out;
+  z-index:3;
 }
 
-@keyframes backgroundPan {
-  from { background-position: 0 0; }
-  to { background-position: 800px 800px; }
+/* Kağıt */
+.paper{
+  position:absolute;
+  width:90%;
+  height:330px;
+  background:#fffdf2;
+  top:30px;
+  left:5%;
+  border-radius:12px;
+  padding:20px;
+  box-sizing:border-box;
+  transform: translateY(240px);
+  transition:1.2s cubic-bezier(.2,1,.2,1);
+  z-index:2;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
-.spotlight {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-  animation: spotlightPulse 10s ease-in-out infinite alternate;
-  z-index: 0;
+/* Açılınca */
+.open .flap{transform:rotateX(180deg);}
+.open .paper{transform:translateY(-170px);}
+
+/* Yazılar */
+h1{
+  color:#a5002d;
+  text-align:center;
+  font-size:26px;
+  margin-top:0;
+}
+p{
+  font-size:17px;
+  text-align:center;
+  line-height:1.6;
+  color:#400000;
 }
 
-@keyframes spotlightPulse {
-  0% { transform: scale(1); opacity: 0.05; }
-  100% { transform: scale(1.2); opacity: 0.15; }
+/* Aslan */
+.lion{
+  position:absolute;
+  bottom:-10px;
+  right:-10px;
+  font-size:80px;
+  opacity:0.15;
 }
-
-/* --- Zarf Konteyneri --- */
-.envelope-container {
-  position: relative;
-  width: 400px;
-  height: 250px;
-  transform-style: preserve-3d;
-  transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Yaylı animasyon */
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.7);
-}
-
-.envelope-container.open {
-  transform: translateY(-150px) rotateX(70deg) rotateY(15deg) scale(1.1);
-}
-
-/* --- Zarfın Kendisi --- */
-.envelope {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: var(--gs-red);
-  border-radius: 10px;
-  transform-style: preserve-3d;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-}
-
-/* Arka Kapak */
-.envelope::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: var(--gs-red);
-  border-radius: 10px;
-  transform: translateZ(-20px); /* Zarfın kalınlığı */
-}
-
-/* Yan Kanatlar */
-.envelope::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, #b80224, #d10228, #b80224);
-  clip-path: polygon(0 0, 50% 50%, 0 100%);
-  transform: translateZ(-10px);
-  border-radius: 10px;
-}
-.envelope .left-flap, .envelope .right-flap {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  top: 0;
-  background: var(--gs-red);
-  transform-origin: left;
-  transition: transform 0.5s ease-in-out;
-  z-index: 2;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-}
-
-.envelope .left-flap {
-  left: 0;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Tamamen sol tarafı kapla */
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-
-.envelope .right-flap {
-  right: 0;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Tamamen sağ tarafı kapla */
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-/* Üst Kapak */
-.flap-top {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--gs-yellow);
-  clip-path: polygon(0 0, 100% 0, 50% 60%);
-  transform-origin: top;
-  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Yumuşak açılma */
-  z-index: 3;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-/* --- Kağıt İçerik --- */
-.paper {
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  background: var(--paper-bg);
-  top: 5%;
-  left: 5%;
-  border-radius: 5px;
-  padding: 30px;
-  box-sizing: border-box;
-  transform: translateZ(1px) scale(0.8); /* Zarfın içinde başlangıç */
-  opacity: 0;
-  transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s, opacity 0.8s ease-in 1s;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--text-color);
-}
-
-.paper-shine {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
-  opacity: 0;
-  animation: shineFadeOut 1s forwards;
-  z-index: 1;
-}
-
-@keyframes shineFadeOut {
-  from { opacity: 1; transform: scale(0.5); }
-  to { opacity: 0; transform: scale(2); }
-}
-
-/* Açık Durumdaki Animasyonlar */
-.envelope-container.open .flap-top {
-  transform: rotateX(180deg) translateZ(10px); /* Kapağı tamamen arkaya at ve hafifçe dışarı çıkar */
-}
-
-.envelope-container.open .paper {
-  transform: translateZ(20px) scale(1); /* Kağıdı dışarı ve öne doğru çıkar */
-  opacity: 1;
-}
-
-/* İçerik Stilleri */
-h1 {
-  color: var(--gs-red);
-  font-size: 2.5em;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-  position: relative;
-  animation: textPop 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.5s forwards;
-  opacity: 0;
-}
-@keyframes textPop {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-p {
-  color: #555;
-  font-size: 1.2em;
-  line-height: 1.7;
-  font-weight: 500;
-  margin-bottom: 20px;
-  animation: fadeIn 1s ease-out 1.8s forwards;
-  opacity: 0;
-}
-
-.lion-icon {
-  font-size: 4em;
-  margin-bottom: 15px;
-  display: block;
-  color: var(--gs-yellow);
-  text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
-  animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 2.2s forwards;
-  opacity: 0;
-}
-@keyframes bounceIn {
-  0% { transform: scale(0.1); opacity: 0; }
-  60% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-.pes-badge {
-  background: var(--gs-red);
-  color: var(--gs-yellow);
-  padding: 8px 15px;
-  border-radius: 25px;
-  font-size: 0.9em;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin-top: 15px;
-  display: inline-block;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  animation: fadeIn 1s ease-out 2.5s forwards;
-  opacity: 0;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Konfeti ve Havai Fişekler (Daha Gelişmiş) */
-.confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  z-index: 1000;
-  opacity: 0;
-  animation: confettiFall var(--duration) linear forwards, fadeInOut 1s ease-in-out forwards;
-}
-@keyframes confettiFall {
-  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-}
-@keyframes fadeInOut {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.firework {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background-color: white;
-  border-radius: 50%;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  animation: fireworkExplode 1.5s ease-out forwards;
-  z-index: 1001;
-}
-
-@keyframes fireworkExplode {
-  0% { transform: scale(0); opacity: 1; }
-  20% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(3); opacity: 0; }
-}
-
-.firework-particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background-color: var(--color);
-  border-radius: 50%;
-  animation: particleFade var(--delay) ease-out forwards;
-}
-
-@keyframes particleFade {
-  0% { transform: translate(0, 0) scale(1); opacity: 1; }
-  100% { transform: translate(var(--x), var(--y)) scale(0) opacity: 0; }
-}
-
 </style>
 </head>
+
 <body>
 
-<div class="background-pattern"></div>
-<div class="spotlight"></div>
-
-<div class="envelope-container" id="card" onclick="openLetter()">
-  <div class="envelope">
-    <div class="flap-top"></div>
-    <div class="paper">
-      <div class="paper-shine"></div> <span class="lion-icon">🦁</span>
-      <h1>Şampiyon Berat!</h1>
-      <p>
-        İyi ki doğdun aslanım Berat!<br>
-        Yeni yaşın sana tüm güzellikleri getirsin.<br>
-        Her zaman olduğu gibi, PES'te rakiplerine fark attığın,<br>
-        Hayatta ise gollerini bir bir sıraladığın harika bir yıl dilerim! ⚽🏆
-      </p>
-      <div class="pes-badge">KRAL OYUNCU 👑</div>
-    </div>
+<div class="envelope" onclick="openLetter()">
+  <div class="flap"></div>
+  <div class="paper">
+    <div class="lion">🦁</div>
+    <h1>🌹 İyi ki Doğdun Berat 🌹</h1>
+    <p>
+      Doğum günün kutlu olsun Beratım 🎉<br>
+      Yeni yaşında bol mutluluk, sağlık ve başarı diliyorum.<br>
+      Pes’te yine herkesi çakmaya devam 😏<br>
+      İyi ki varsın 🦁❤️
+    </p>
   </div>
 </div>
 
-<audio id="openSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-sweep-transition-1082.mp3"></audio> <audio id="magicSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-magical-fairy-tale-chime-949.mp3"></audio> <audio id="celebrateSfx" src="https://assets.mixkit.co/sfx/preview/mixkit-firework-burst-and-shimmer-588.mp3"></audio> <audio id="anthemSfx" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio> <script>
-let isOpened = false;
+<!-- Sesler -->
+<audio id="openSound" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b0b2c1c9c.mp3?filename=paper-slide-103090.mp3">
+</audio>
 
-function openLetter() {
-  const card = document.getElementById('card');
-  const openSfx = document.getElementById('openSfx');
-  const magicSfx = document.getElementById('magicSfx');
-  const celebrateSfx = document.getElementById('celebrateSfx');
-  const anthem = document.getElementById('anthemSfx');
+<audio id="celebrateSound" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_0d7c77a8c4.mp3?filename=success-fanfare-trumpets-6185.mp3">
+</audio>
 
-  if (!isOpened) {
-    card.classList.add('open');
-    openSfx.currentTime = 0; // Sesi baştan başlat
-    openSfx.play();
-    
-    setTimeout(() => {
-      magicSfx.currentTime = 0;
-      magicSfx.play();
-      createFirework(); // Tek bir havai fişek patlat
-      createConfettiBurst(); // Konfeti patlaması
-    }, 800); // Zarfın dönme animasyonuyla eşleşsin
+<script>
+let opened=false;
 
-    setTimeout(() => {
-        celebrateSfx.currentTime = 0;
-        celebrateSfx.play();
-        anthem.volume = 0.4; // Müziğin sesini ayarla
-        anthem.play();
-    }, 1500); // Kağıt tamamen göründüğünde
-    
-    isOpened = true;
+function openLetter(){
+  const env=document.querySelector(".envelope");
+  const open=document.getElementById("openSound");
+  const cheer=document.getElementById("celebrateSound");
+
+  env.classList.toggle("open");
+
+  open.currentTime=0;
+  open.play();
+
+  if(!opened){
+    setTimeout(()=>cheer.play(),800);
+    makeConfetti();
+    opened=true;
   }
 }
 
-function createConfettiBurst() {
-  const colors = ['var(--gs-yellow)', 'var(--gs-red)', '#ffffff', '#ffd700', '#c0c0c0'];
-  for (let i = 0; i < 50; i++) {
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random() * 100 + 'vw';
-    c.style.top = Math.random() * -20 + 'vh'; // Ekranın üstünden başlasın
-    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    c.style.width = Math.random() * 8 + 5 + 'px';
-    c.style.height = c.style.width;
-    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    c.style.setProperty('--duration', Math.random() * 2 + 3 + 's'); // Farklı düşüş hızları
+function makeConfetti(){
+  for(let i=0;i<50;i++){
+    const c=document.createElement("div");
+    c.classList.add("confetti");
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=["#ffcc00","#ff0033","#ffffff","#ffa500"][Math.floor(Math.random()*4)];
+    c.style.animationDuration=(Math.random()*3+2)+"s";
     document.body.appendChild(c);
-    
-    setTimeout(() => c.remove(), 5000);
+    setTimeout(()=>c.remove(),5000);
   }
 }
+</script>
 
-function createFirework() {
-  const fireworkColors = ['var(--gs-red)', 'var(--gs-yellow)', '#ffffff'];
-  
+</body>
+</html>
