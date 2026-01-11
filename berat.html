@@ -2,112 +2,111 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun Berat 🎂</title>
+<title>İyi ki Doğdun Berat 🦁</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #ffecd2, #fcb69f);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body{
+    margin:0;
+    height:100vh;
+    background: linear-gradient(135deg, #a5002d, #ffcc00);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: 'Georgia', serif;
 }
 
-.container {
-  background: #fff;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 380px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+/* Zarf */
+.envelope{
+    width:350px;
+    height:220px;
+    background:#8b001f;
+    position:relative;
+    cursor:pointer;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+    border-radius:10px;
 }
 
-img {
-  width: 100%;
-  border-radius: 15px;
-  margin-bottom: 15px;
+/* Kapak */
+.flap{
+    position:absolute;
+    width:0;
+    height:0;
+    border-left:175px solid transparent;
+    border-right:175px solid transparent;
+    border-bottom:110px solid #ffcc00;
+    top:0;
+    left:0;
+    transform-origin:top;
+    transition:1s;
+    z-index:3;
 }
 
-h1 {
-  color: #ff6b6b;
-  margin-bottom: 10px;
+/* İç kağıt */
+.letter{
+    position:absolute;
+    width:90%;
+    height:90%;
+    background:white;
+    top:10px;
+    left:5%;
+    padding:20px;
+    box-sizing:border-box;
+    transform: translateY(120px);
+    transition:1s;
+    border-radius:10px;
+    overflow:hidden;
 }
 
-button {
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 25px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 15px;
+.open .flap{
+    transform: rotateX(180deg);
 }
 
-button:hover {
-  background: #ff4757;
+.open .letter{
+    transform: translateY(-80px);
 }
 
-.envelope {
-  margin-top: 20px;
-  perspective: 1000px;
-  display: none;
+/* Yazı */
+h1{
+    color:#a5002d;
+    text-align:center;
 }
 
-.letter {
-  width: 100%;
-  background: #fffaf0;
-  border-radius: 10px;
-  padding: 20px;
-  transform: rotateX(-90deg);
-  transform-origin: top;
-  transition: transform 1s;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+p{
+    font-size:18px;
+    line-height:1.5;
 }
 
-.letter.open {
-  transform: rotateX(0deg);
-}
-
-.letter p {
-  color: #444;
-  font-size: 15px;
-  line-height: 1.6;
+/* Galatasaray logosu (aslan efekti) */
+.lion{
+    position:absolute;
+    top:-60px;
+    right:-60px;
+    font-size:100px;
+    opacity:0.2;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>🎉 İyi ki Doğdun!</h1>
+<div class="envelope" onclick="openLetter()">
+    <div class="flap"></div>
 
-  <img src="foto.jpg" alt="Berat">
-
-  <button onclick="openLetter()">📜 Mektubu Aç</button>
-
-  <div class="envelope" id="envelope">
-    <div class="letter" id="letter">
-      <p>
-        Doğum günün kutlu olsun Beratım 🌹<br><br>
+    <div class="letter">
+        <div class="lion">🦁</div>
+        <h1>🌹İyiki Doğdun Berat🌹</h1>
+        <p>
+        Doğum günün kutlu olsun Beratım🌹.<br>
         Yeni yılda ve yaşında mutluluklar dilerim.<br>
-        Pesde bu senede çakıcam 😄<br><br>
-        Sevgilerle 🌹🌹🌹
-      </p>
+        Pesde bu senede çakmaya devam.<br>
+        Seviliyorsun🌹🌹🌹
+        </p>
     </div>
-  </div>
 </div>
 
 <script>
-function openLetter() {
-  document.getElementById("envelope").style.display = "block";
-  setTimeout(() => {
-    document.getElementById("letter").classList.add("open");
-  }, 100);
+function openLetter(){
+    document.querySelector(".envelope").classList.toggle("open");
 }
 </script>
 
